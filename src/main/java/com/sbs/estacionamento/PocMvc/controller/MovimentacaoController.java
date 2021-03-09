@@ -1,6 +1,7 @@
 package com.sbs.estacionamento.pocmvc.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 public class MovimentacaoController {
 
     @GetMapping("/")
-    public String hello(HttpServletRequest request){
-        request.setAttribute("name", "FCamara");
+    public String hello(Model model){
+        model.addAttribute("name", " FCamara!!!");
         return "hello";
     }
 }
