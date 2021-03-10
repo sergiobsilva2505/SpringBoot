@@ -2,10 +2,7 @@ package com.sbs.estacionamento.pocmvc.model;
 
 import com.sbs.estacionamento.pocmvc.model.enums.TipoVeiculo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Veiculo {
@@ -13,10 +10,16 @@ public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String marca;
+    @Column(nullable = false)
     private String modelo;
+    @Column(nullable = false)
     private String cor;
+    @Column(nullable = false)
     private String placa;
+
+    @Column(nullable = false)
     private TipoVeiculo tipo;
 
     public Veiculo(Integer id, String marca, String modelo, String cor, String placa, TipoVeiculo tipo) {
