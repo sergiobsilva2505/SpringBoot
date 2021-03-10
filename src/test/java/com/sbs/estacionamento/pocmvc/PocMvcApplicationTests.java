@@ -1,4 +1,4 @@
-package com.sbs.estacionamento.PocMvc;
+package com.sbs.estacionamento.pocmvc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

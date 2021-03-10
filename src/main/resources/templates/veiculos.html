@@ -1,15 +1,17 @@
 <!doctype html>
-<html lang="pt">
+<html lang="pt" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
 
     <title>Document</title>
 </head>
 <body>
-    <div>id</div>
-    <div>marca</div>
-    <div>modelo</div>
-    <div>cor</div>
-    <div>placa</div>
+    <div th:each = "veiculo : ${veiculos}">
+        <div th:text="${veiculo.id}">id</div>
+        <div th:text="${veiculo.marca}">marca</div>
+        <div th:text="${veiculo.modelo}">modelo</div>
+        <div th:text="${veiculo.cor}">cor</div>
+        <div th:text="${veiculo.placa}">placa</div>
+    </div>
 </body>
 </html>
