@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,14 +20,13 @@ public class VeiculoController {
     @Autowired
     public VeiculoRepository veiculoRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @GetMapping("/veiculos")
     public String todosVeiculos(Model model){
-
-        Veiculo veiculo = new Veiculo(null, "Volkswagwn", "Gol", "prata",
-                "BXF8081", TipoVeiculo.CARRO);
-        Veiculo veiculo1 = new Veiculo(null, "Volkswagwn", "Kombi", "rosa",
-                "BtF0001", TipoVeiculo.CARRO);
-        List<Veiculo> veiculos = Arrays.asList(veiculo, veiculo1);
+        Query query = entityManager.createQuery("SELECT v from Veiculo v", Veiculo.class);
+        List<Veiculo> veiculos =  query.getResultList();
         model.addAttribute("veiculos", veiculos);
         return "veiculos";
     }

@@ -19,8 +19,12 @@ public class Veiculo {
     @Column(nullable = false)
     private String placa;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoVeiculo tipo;
+
+    public Veiculo(){
+
+    }
 
     public Veiculo(Integer id, String marca, String modelo, String cor, String placa, TipoVeiculo tipo) {
         this.id = id;
