@@ -3,6 +3,7 @@ package com.sbs.estacionamento.pocmvc.service;
 import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
 import com.sbs.estacionamento.pocmvc.model.Veiculo;
 import com.sbs.estacionamento.pocmvc.model.repo.VeiculoRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,10 @@ public class VeiculoService {
     }
 
     public Veiculo findById(Integer id) {
+        // Optional utilizado para evitar fazer verificação com if != null
         Optional<Veiculo> obj = veiculoRepository.findById(id);
-        System.out.println(obj);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new NullPointerException(
+                "Objeto não encontrado! Id: "+ id +", Tipo: " + Veiculo.class.getName())); // to do
     }
 
     public Veiculo insert(NovoVeiculoDto objDto) {

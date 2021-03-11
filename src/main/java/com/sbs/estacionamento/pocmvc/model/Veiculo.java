@@ -3,9 +3,11 @@ package com.sbs.estacionamento.pocmvc.model;
 import com.sbs.estacionamento.pocmvc.model.enums.TipoVeiculo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Veiculo {
+public class Veiculo implements Serializable {
+    private  static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +26,6 @@ public class Veiculo {
 
     public Veiculo(){
 
-    }
-
-    public Veiculo(Integer id, String marca, String modelo, String cor, String placa, TipoVeiculo tipo) {
-        this.id = id;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.cor = cor;
-        this.placa = placa;
-        this.tipo = tipo;
     }
 
     public Integer getId() {

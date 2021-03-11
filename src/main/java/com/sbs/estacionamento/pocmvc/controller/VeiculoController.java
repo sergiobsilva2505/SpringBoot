@@ -5,6 +5,7 @@ import com.sbs.estacionamento.pocmvc.model.Veiculo;
 import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,9 @@ public class VeiculoController {
     public VeiculoService veiculoService;
 
     @GetMapping
-    public List<Veiculo> allVehicles(){
+    public ResponseEntity<List<Veiculo>> allVehicles(){
         List<Veiculo> veiculos =  veiculoService.findAll();
-        return veiculos;
+        return ResponseEntity.ok().body(veiculos);
     }
 
     @GetMapping("/{id}")
@@ -29,7 +30,6 @@ public class VeiculoController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public void insertVehicle(@RequestBody NovoVeiculoDto objDto){
         veiculoService.insert(objDto);
     }

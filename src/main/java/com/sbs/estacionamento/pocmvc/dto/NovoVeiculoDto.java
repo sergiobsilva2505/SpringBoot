@@ -17,14 +17,6 @@ public class NovoVeiculoDto {
 
     }
 
-    public NovoVeiculoDto(String marca, String modelo, String cor, String placa, TipoVeiculo tipo) {
-        this.marca = marca;
-        this.modelo = modelo;
-        this.cor = cor;
-        this.placa = placa;
-        this.tipo = tipo;
-    }
-
     public String getMarca() {
         return marca;
     }
