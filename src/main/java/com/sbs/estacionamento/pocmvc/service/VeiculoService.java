@@ -1,5 +1,6 @@
 package com.sbs.estacionamento.pocmvc.service;
 
+import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
 import com.sbs.estacionamento.pocmvc.model.Veiculo;
 import com.sbs.estacionamento.pocmvc.model.repo.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,21 @@ public class VeiculoService {
         Optional<Veiculo> obj = veiculoRepository.findById(id);
         System.out.println(obj);
         return obj.orElse(null);
+    }
+
+    public Veiculo insert(NovoVeiculoDto objDto) {
+        Veiculo veiculo = dtoFromVeiculo(objDto);
+        return veiculoRepository.save(veiculo);
+    }
+
+    public Veiculo dtoFromVeiculo(NovoVeiculoDto objDto){
+        Veiculo veiculo = new Veiculo();
+        veiculo.setId(null);
+        veiculo.setMarca(objDto.getMarca());
+        veiculo.setModelo(objDto.getModelo());
+        veiculo.setCor(objDto.getCor());
+        veiculo.setPlaca(objDto.getPlaca());
+        veiculo.setTipo(objDto.getTipo());
+        return veiculo;
     }
 }

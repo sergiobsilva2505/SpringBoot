@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/veiculos")
 public class VeiculoController {
@@ -31,7 +30,7 @@ public class VeiculoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Veiculo insertVehicle(NovoVeiculoDto objDto){
+    public void insertVehicle(@RequestBody NovoVeiculoDto objDto){
         veiculoService.insert(objDto);
     }
 
