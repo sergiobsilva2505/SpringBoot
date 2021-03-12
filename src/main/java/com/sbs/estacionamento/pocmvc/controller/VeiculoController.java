@@ -1,10 +1,9 @@
 package com.sbs.estacionamento.pocmvc.controller;
 
 import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
-import com.sbs.estacionamento.pocmvc.model.Veiculo;
+import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

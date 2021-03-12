@@ -1,6 +1,6 @@
-package com.sbs.estacionamento.pocmvc.model;
+package com.sbs.estacionamento.pocmvc.entities;
 
-import com.sbs.estacionamento.pocmvc.model.enums.TipoVeiculo;
+import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,12 +12,16 @@ public class Veiculo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(nullable = false)
     private String marca;
+
     @Column(nullable = false)
     private String modelo;
+
     @Column(nullable = false)
     private String cor;
+
     @Column(nullable = false)
     private String placa;
 

@@ -1,8 +1,6 @@
 package com.sbs.estacionamento.pocmvc.dto;
 
-import com.sbs.estacionamento.pocmvc.model.enums.TipoVeiculo;
-
-import javax.persistence.*;
+import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 
 public class NovoVeiculoDto {
 

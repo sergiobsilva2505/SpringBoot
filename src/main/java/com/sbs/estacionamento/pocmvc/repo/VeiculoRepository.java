@@ -1,6 +1,6 @@
-package com.sbs.estacionamento.pocmvc.model.repo;
+package com.sbs.estacionamento.pocmvc.repo;
 
-import com.sbs.estacionamento.pocmvc.model.Veiculo;
+import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
