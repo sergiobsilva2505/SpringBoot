@@ -1,5 +1,6 @@
 package com.sbs.estacionamento.pocmvc.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class Veiculo implements Serializable {
     public Veiculo(){
 
     }
+
 
     public Integer getId() {
         return id;
