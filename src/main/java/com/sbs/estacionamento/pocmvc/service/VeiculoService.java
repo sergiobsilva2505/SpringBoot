@@ -29,9 +29,9 @@ public class VeiculoService {
                 "Objeto não encontrado! Id: "+ id +", Tipo: " + Veiculo.class.getName())); // to do
     }
 
-    public Veiculo insert(NovoVeiculoDto objDto) {
-        Veiculo veiculo = dtoFromVeiculo(objDto);
-        return veiculoRepository.save(veiculo);
+    public Veiculo insert(Veiculo obj) {
+        Veiculo veiculo = veiculoRepository.save(obj);
+        return veiculo;
     }
 
     public Veiculo dtoFromVeiculo(NovoVeiculoDto objDto){

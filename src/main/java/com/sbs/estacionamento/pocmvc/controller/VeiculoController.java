@@ -6,7 +6,9 @@ import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,14 +25,17 @@ public class VeiculoController {
     }
 
     @GetMapping("/{id}")
-    public Veiculo findVehicle(@PathVariable Integer id){
+    public ResponseEntity<Veiculo> findVehicle(@PathVariable Integer id){
         Veiculo veiculo = veiculoService.findById(id);
-        return veiculo;
+        return ResponseEntity.ok().body(veiculo);
     }
 
     @PostMapping
-    public void insertVehicle(@RequestBody NovoVeiculoDto objDto){
-        veiculoService.insert(objDto);
+    public ResponseEntity<Void> insertVehicle(@RequestBody NovoVeiculoDto objDto){
+        Veiculo obj = veiculoService.dtoFromVeiculo(objDto);
+        obj = veiculoService.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
 }
