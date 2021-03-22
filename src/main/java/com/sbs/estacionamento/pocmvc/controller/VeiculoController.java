@@ -38,4 +38,12 @@ public class VeiculoController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@RequestBody NovoVeiculoDto objDto, @PathVariable Integer id){
+        Veiculo obj = veiculoService.dtoFromVeiculo(objDto);
+        obj.setId(id);
+        veiculoService.update(obj);
+        return ResponseEntity.noContent().build();
+    }
+
 }

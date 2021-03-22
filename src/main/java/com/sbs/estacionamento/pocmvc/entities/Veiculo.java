@@ -33,6 +33,14 @@ public class Veiculo implements Serializable {
 
     }
 
+    public Veiculo(Integer id, String marca, String modelo, String cor, String placa, TipoVeiculo tipo) {
+        this.id = id;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.cor = cor;
+        this.placa = placa;
+        this.tipo = tipo;
+    }
 
     public Integer getId() {
         return id;
