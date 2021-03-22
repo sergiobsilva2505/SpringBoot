@@ -5,6 +5,7 @@ import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
@@ -34,6 +35,21 @@ public class VeiculoService {
         return veiculo;
     }
 
+    public Veiculo update(Veiculo obj) {
+        Veiculo newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        return veiculoRepository.save(newObj);
+    }
+
+    public void delete(Integer id) {
+        Veiculo veiculo =findById(id);
+        try {
+            veiculoRepository.delete(veiculo);
+        }catch ( DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException("Não é possível excluir");
+        }
+    }
+
     public Veiculo dtoFromVeiculo(NovoVeiculoDto objDto){
         Veiculo veiculo = new Veiculo(
                 null,
@@ -45,16 +61,7 @@ public class VeiculoService {
         return veiculo;
     }
 
-    public Veiculo update(Veiculo obj) {
-        Veiculo newObj = findById(obj.getId());
-        updateData(newObj, obj);
-        return veiculoRepository.save(newObj);
-    }
-
     private void updateData(Veiculo newObj, Veiculo obj) {
         newObj.setPlaca(obj.getPlaca());
-    }
-
-    public void delete(Integer id) {
     }
 }
