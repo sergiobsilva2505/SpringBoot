@@ -55,4 +55,6 @@ public class VeiculoService {
         newObj.setPlaca(obj.getPlaca());
     }
 
+    public void delete(Integer id) {
+    }
 }

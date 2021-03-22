@@ -46,4 +46,10 @@ public class VeiculoController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
+        veiculoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
