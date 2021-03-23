@@ -18,26 +18,49 @@ public class VeiculoController {
     @Autowired
     public VeiculoService veiculoService;
 
+    /**
+     *
+     * @return
+     */
+    // Response Entity?
     @GetMapping
     public ResponseEntity<List<Veiculo>> allVehicles(){
         List<Veiculo> veiculos =  veiculoService.findAll();
         return ResponseEntity.ok().body(veiculos);
     }
 
-    @GetMapping("/{id}")
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Veiculo> findVehicle(@PathVariable Integer id){
         Veiculo veiculo = veiculoService.findById(id);
         return ResponseEntity.ok().body(veiculo);
     }
 
+    /**
+     *
+     * @param objDto
+     * @return
+     */
     @PostMapping
-    public ResponseEntity<Void> insertVehicle(@RequestBody NovoVeiculoDto objDto){
+    public ResponseEntity<Void> insertVehicle( @RequestBody NovoVeiculoDto objDto){
         Veiculo obj = veiculoService.dtoFromVeiculo(objDto);
         obj = veiculoService.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(obj.getId()).toUri();
+        // retorna uri do novo recurso criado. ???
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
+    /**
+     *
+     * @param objDto
+     * @param id
+     * @return
+     */
+    // to do - mudar para requisição patch e verificar quais atribuots poderão ser alterados
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@RequestBody NovoVeiculoDto objDto, @PathVariable Integer id){
         Veiculo obj = veiculoService.dtoFromVeiculo(objDto);
@@ -46,6 +69,11 @@ public class VeiculoController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         veiculoService.delete(id);
