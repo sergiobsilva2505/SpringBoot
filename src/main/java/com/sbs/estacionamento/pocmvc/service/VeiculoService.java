@@ -4,7 +4,7 @@ import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
-import com.sbs.estacionamento.pocmvc.service.exceptions.ObjectNotFoundException;
+import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,8 @@ public class VeiculoService {
     public Veiculo findById(Integer id) {
         // Optional utilizado para evitar fazer verificação com if != null
         Optional<Veiculo> obj = veiculoRepository.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: "+ id +", Tipo: " + Veiculo.class.getName())); // to do
+        return obj.orElseThrow(() -> new VeiculoNotFoundException(
+                "Objeto não encontrado! Id: "+ id +", Tipo: " + (Veiculo.class.getName())));
     }
 
     public Veiculo insert(Veiculo obj) {
@@ -64,5 +64,6 @@ public class VeiculoService {
 
     private void updateData(Veiculo newObj, Veiculo obj) {
         newObj.setPlaca(obj.getPlaca());
+        newObj.setCor(obj.getCor());
     }
 }

@@ -61,7 +61,7 @@ public class VeiculoController {
      * @return
      */
     // to do - mudar para requisição patch e verificar quais atribuots poderão ser alterados
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> update(@RequestBody NovoVeiculoDto objDto, @PathVariable Integer id){
         Veiculo obj = veiculoService.dtoFromVeiculo(objDto);
         obj.setId(id);
