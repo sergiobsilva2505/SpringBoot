@@ -1,5 +1,6 @@
 package com.sbs.estacionamento.pocmvc.service;
 
+import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoDto;
 import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 
@@ -38,7 +39,6 @@ public class VeiculoService {
 
     public Veiculo update(Veiculo obj) {
         Veiculo newObj = findById(obj.getId());
-        updateData(newObj, obj);
         return veiculoRepository.save(newObj);
     }
 
@@ -49,6 +49,13 @@ public class VeiculoService {
         }catch ( DataIntegrityViolationException e){
             throw new DataIntegrityViolationException("Não é possível excluir");
         }
+    }
+
+    public Veiculo editaVeiculo(EditaVeiculoDto objDto, Integer id){
+        Veiculo obj = findById(id);
+        obj.setCor(objDto.getCor());
+        obj.setPlaca(objDto.getPlaca());
+        return obj;
     }
 
     public Veiculo dtoFromVeiculo(NovoVeiculoDto objDto){
@@ -62,8 +69,8 @@ public class VeiculoService {
         return veiculo;
     }
 
-    private void updateData(Veiculo newObj, Veiculo obj) {
+    /*private void updateData(Veiculo newObj, Veiculo obj) {
         newObj.setPlaca(obj.getPlaca());
         newObj.setCor(obj.getCor());
-    }
+    }*/
 }

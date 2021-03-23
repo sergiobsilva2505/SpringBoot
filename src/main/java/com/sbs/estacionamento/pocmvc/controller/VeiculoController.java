@@ -1,5 +1,6 @@
 package com.sbs.estacionamento.pocmvc.controller;
 
+import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoDto;
 import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.service.VeiculoService;
@@ -62,9 +63,8 @@ public class VeiculoController {
      */
     // to do - mudar para requisição patch e verificar quais atribuots poderão ser alterados
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> update(@RequestBody NovoVeiculoDto objDto, @PathVariable Integer id){
-        Veiculo obj = veiculoService.dtoFromVeiculo(objDto);
-        obj.setId(id);
+    public ResponseEntity<Void> update(@RequestBody EditaVeiculoDto objDto, @PathVariable Integer id){
+        Veiculo obj = veiculoService.editaVeiculo(objDto, id);
         veiculoService.update(obj);
         return ResponseEntity.noContent().build();
     }
