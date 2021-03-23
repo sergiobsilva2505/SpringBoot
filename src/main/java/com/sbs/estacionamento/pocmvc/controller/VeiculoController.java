@@ -5,6 +5,7 @@ import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -66,7 +67,7 @@ public class VeiculoController {
     public ResponseEntity<Void> update(@RequestBody EditaVeiculoDto objDto, @PathVariable Integer id){
         Veiculo obj = veiculoService.editaVeiculo(objDto, id);
         veiculoService.update(obj);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     /**
