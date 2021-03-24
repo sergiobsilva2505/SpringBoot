@@ -69,8 +69,5 @@ public class VeiculoService {
         return veiculo;
     }
 
-    /*private void updateData(Veiculo newObj, Veiculo obj) {
-        newObj.setPlaca(obj.getPlaca());
-        newObj.setCor(obj.getCor());
-    }*/
+
 }

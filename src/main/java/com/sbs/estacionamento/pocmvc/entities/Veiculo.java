@@ -5,6 +5,7 @@ import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 public class Veiculo implements Serializable {
@@ -83,4 +84,6 @@ public class Veiculo implements Serializable {
     public void setTipo(TipoVeiculo tipo) {
         this.tipo = tipo;
     }
+
+
 }
