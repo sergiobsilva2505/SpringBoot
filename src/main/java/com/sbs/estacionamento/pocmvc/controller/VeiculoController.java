@@ -50,6 +50,7 @@ public class VeiculoController {
     @PostMapping
     public ResponseEntity<VeiculoDto> insertVehicle(@Valid @RequestBody VeiculoForm objForm){
         Veiculo obj = veiculoService.dtoFromVeiculo(objForm);
+        System.out.println(obj.getPlaca());
         obj = veiculoService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(new VeiculoDto(obj));

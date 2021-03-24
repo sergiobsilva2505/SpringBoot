@@ -20,6 +20,7 @@ public class VeiculoDto {
         this.marca = veiculo.getMarca();
         this.modelo = veiculo.getModelo();
         this.cor = veiculo.getCor();
+        this.placa = veiculo.getPlaca();
         this.tipo = veiculo.getTipo();
 
     }
