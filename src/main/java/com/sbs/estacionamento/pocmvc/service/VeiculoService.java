@@ -35,7 +35,12 @@ public class VeiculoService {
 
     /* TODO implementação da validação veiculoExiste */
     public Veiculo insert(Veiculo obj) {
-        Veiculo veiculo = veiculoRepository.save(obj);
+        Veiculo veiculo = veiculoRepository.findByPlaca(obj.getPlaca());
+        if (veiculo != null){
+            System.out.println("Veiculo já eiste");
+            return  null;
+        }
+       veiculo = veiculoRepository.save(obj);
         return veiculo;
     }
 

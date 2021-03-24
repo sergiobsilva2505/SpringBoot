@@ -19,6 +19,7 @@ public class Veiculo implements Serializable {
     private String marca;
     private String modelo;
     private String cor;
+    @Column(unique = true)
     private String placa;
 
     @Enumerated(EnumType.STRING)
