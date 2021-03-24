@@ -1,11 +1,11 @@
 package com.sbs.estacionamento.pocmvc.dto;
 
-public class EditaVeiculoDto {
+public class EditaVeiculoForm {
 
     private String cor;
     private String placa;
 
-    public EditaVeiculoDto() {
+    public EditaVeiculoForm() {
 
     }
 

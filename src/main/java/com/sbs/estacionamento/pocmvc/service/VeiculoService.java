@@ -1,7 +1,7 @@
 package com.sbs.estacionamento.pocmvc.service;
 
-import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoDto;
-import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
+import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoForm;
+import com.sbs.estacionamento.pocmvc.dto.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
@@ -51,14 +51,14 @@ public class VeiculoService {
         }
     }
 
-    public Veiculo editaVeiculo(EditaVeiculoDto objDto, Integer id){
+    public Veiculo editaVeiculo(EditaVeiculoForm objDto, Integer id){
         Veiculo obj = findById(id);
         obj.setCor(objDto.getCor());
         obj.setPlaca(objDto.getPlaca());
         return obj;
     }
 
-    public Veiculo dtoFromVeiculo(NovoVeiculoDto objDto){
+    public Veiculo dtoFromVeiculo(VeiculoForm objDto){
         Veiculo veiculo = new Veiculo(
                 null,
                 objDto.getMarca(),

@@ -14,7 +14,7 @@ public class Veiculo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+
     private String marca;
 
     @Column(nullable = false)

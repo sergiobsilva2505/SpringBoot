@@ -1,11 +1,11 @@
 package com.sbs.estacionamento.pocmvc.controller;
 
-import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoDto;
-import com.sbs.estacionamento.pocmvc.dto.NovoVeiculoDto;
+import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoForm;
+import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
+import com.sbs.estacionamento.pocmvc.dto.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,9 +26,9 @@ public class VeiculoController {
      */
     // Response Entity?
     @GetMapping
-    public ResponseEntity<List<Veiculo>> allVehicles(){
+    public ResponseEntity<List<VeiculoDto>> allVehicles(){
         List<Veiculo> veiculos =  veiculoService.findAll();
-        return ResponseEntity.ok().body(veiculos);
+        return ResponseEntity.ok().body(VeiculoDto.convertAll(veiculos));
     }
 
     /**
@@ -37,35 +37,34 @@ public class VeiculoController {
      * @return
      */
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Veiculo> findVehicle(@PathVariable Integer id){
+    public ResponseEntity<VeiculoDto> findVehicle(@PathVariable Integer id){
         Veiculo veiculo = veiculoService.findById(id);
-        return ResponseEntity.ok().body(veiculo);
+        return ResponseEntity.ok().build();
     }
 
     /**
      *
-     * @param objDto
+     * @param objForm
      * @return
      */
     @PostMapping
-    public ResponseEntity<Void> insertVehicle( @RequestBody NovoVeiculoDto objDto){
-        Veiculo obj = veiculoService.dtoFromVeiculo(objDto);
+    public ResponseEntity<VeiculoForm> insertVehicle(@RequestBody VeiculoForm objForm){
+        Veiculo obj = veiculoService.dtoFromVeiculo(objForm);
         obj = veiculoService.insert(obj);
-        // retorna uri do novo recurso criado. ???
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     /**
      *
-     * @param objDto
+     * @param objForm
      * @param id
      * @return
      */
     // to do - mudar para requisição patch e verificar quais atribuots poderão ser alterados
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> update(@RequestBody EditaVeiculoDto objDto, @PathVariable Integer id){
-        Veiculo obj = veiculoService.editaVeiculo(objDto, id);
+    public ResponseEntity<Void> update(@RequestBody EditaVeiculoForm objForm, @PathVariable Integer id){
+        Veiculo obj = veiculoService.editaVeiculo(objForm, id);
         veiculoService.update(obj);
         return ResponseEntity.ok().build();
     }

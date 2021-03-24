@@ -2,7 +2,8 @@ package com.sbs.estacionamento.pocmvc.dto;
 
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 
-public class NovoVeiculoDto {
+public class VeiculoForm {
+
 
     private String marca;
     private String modelo;
@@ -11,7 +12,7 @@ public class NovoVeiculoDto {
 
     private TipoVeiculo tipo;
 
-    public NovoVeiculoDto(){
+    public VeiculoForm(){
 
     }
 
