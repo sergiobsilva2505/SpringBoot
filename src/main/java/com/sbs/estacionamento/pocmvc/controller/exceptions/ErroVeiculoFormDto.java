@@ -1,11 +1,11 @@
 package com.sbs.estacionamento.pocmvc.controller.exceptions;
 
-public class ErroVeiculoForm {
+public class ErroVeiculoFormDto {
 
     private String campo;
     private String erro;
 
-    public ErroVeiculoForm(String campo, String erro) {
+    public ErroVeiculoFormDto(String campo, String erro) {
         this.campo = campo;
         this.erro = erro;
     }

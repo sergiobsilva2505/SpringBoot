@@ -8,20 +8,20 @@ import javax.validation.constraints.NotEmpty;
 public class VeiculoForm {
 
 
-    @NotEmpty(message = "Marca não pode ser nula ou vazia!")
-    @Length(min = 5)
+    @NotEmpty(message = "marca não pode ser nula ou vazia!")
+    @Length(min = 5, max = 25)
     private String marca;
 
-    @NotEmpty(message = "Modelo não pode ser nulo ou vazio!")
-    @Length(min = 5)
+    @NotEmpty(message = "modelo não pode ser nulo ou vazio!")
+    @Length(min = 5, max = 25)
     private String modelo;
 
-    @NotEmpty(message = "Cor não pode ser nula ou vazia!")
-    @Length(min = 5)
+    @NotEmpty(message = "cor não pode ser nula ou vazia!")
+    @Length(min = 5, max = 25)
     private String cor;
 
-    @NotEmpty(message = "Placa não pode ser nula ou vazia!")
-    @Length(min = 5)
+    @NotEmpty(message = "placa não pode ser nula ou vazia!")
+    @Length(min = 7, max = 7)
     private String placa;
 
     private TipoVeiculo tipo;
