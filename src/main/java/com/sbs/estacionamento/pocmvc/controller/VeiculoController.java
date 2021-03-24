@@ -47,11 +47,11 @@ public class VeiculoController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<VeiculoForm> insertVehicle(@RequestBody VeiculoForm objForm){
+    public ResponseEntity<VeiculoDto> insertVehicle(@RequestBody VeiculoForm objForm){
         Veiculo obj = veiculoService.dtoFromVeiculo(objForm);
         obj = veiculoService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(new VeiculoDto(obj));
     }
 
     /**
