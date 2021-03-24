@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -48,9 +49,9 @@ public class VeiculoController {
      * @return
      */
     @PostMapping
+    @Transactional
     public ResponseEntity<VeiculoDto> insertVehicle(@Valid @RequestBody VeiculoForm objForm){
         Veiculo obj = veiculoService.dtoFromVeiculo(objForm);
-        System.out.println(obj.getPlaca());
         obj = veiculoService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(new VeiculoDto(obj));
@@ -64,10 +65,11 @@ public class VeiculoController {
      */
     // to do - mudar para requisição patch e verificar quais atribuots poderão ser alterados
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> update(@RequestBody EditaVeiculoForm objForm, @PathVariable Integer id){
+    @Transactional
+    public ResponseEntity<VeiculoDto> update(@RequestBody @Valid EditaVeiculoForm objForm, @PathVariable Integer id){
         Veiculo obj = veiculoService.editaVeiculo(objForm, id);
         veiculoService.update(obj);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new VeiculoDto(obj));
     }
 
     /**
@@ -76,9 +78,10 @@ public class VeiculoController {
      * @return
      */
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         veiculoService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
 }

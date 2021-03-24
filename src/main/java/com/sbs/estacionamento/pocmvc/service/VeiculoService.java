@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ public class VeiculoService {
                 "Objeto não encontrado! Id: "+ id +", Tipo: " + (Veiculo.class.getName())));
     }
 
+    /* TODO implementação da validação veiculoExiste */
     public Veiculo insert(Veiculo obj) {
         Veiculo veiculo = veiculoRepository.save(obj);
         return veiculo;
@@ -69,6 +71,11 @@ public class VeiculoService {
         return veiculo;
     }
 
+    /**
+     * Verifica se um veiculo ja existe utilizando como parametro, a placa.
+     * @param veiculo
+     * @return
+     */
     private Boolean veiculoExiste(Veiculo veiculo){
         List<Veiculo> veiculos = findAll();
         if (veiculos.contains(veiculo)){
