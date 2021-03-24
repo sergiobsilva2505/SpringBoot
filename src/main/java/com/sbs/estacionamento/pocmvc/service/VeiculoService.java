@@ -69,5 +69,13 @@ public class VeiculoService {
         return veiculo;
     }
 
+    private Boolean veiculoExiste(Veiculo veiculo){
+        List<Veiculo> veiculos = findAll();
+        if (veiculos.contains(veiculo)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }
