@@ -1,4 +1,4 @@
-package com.sbs.estacionamento.pocmvc.dto;
+package com.sbs.estacionamento.pocmvc.controller.form;
 
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 

@@ -1,10 +1,8 @@
-package com.sbs.estacionamento.pocmvc.dto;
+package com.sbs.estacionamento.pocmvc.controller.dto;
 
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,5 +51,5 @@ public class VeiculoDto {
     public TipoVeiculo getTipo() {
         return tipo;
     }
-    
+
 }

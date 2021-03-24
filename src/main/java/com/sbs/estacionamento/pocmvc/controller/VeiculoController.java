@@ -1,8 +1,8 @@
 package com.sbs.estacionamento.pocmvc.controller;
 
-import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoForm;
-import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
-import com.sbs.estacionamento.pocmvc.dto.VeiculoForm;
+import com.sbs.estacionamento.pocmvc.controller.form.EditaVeiculoForm;
+import com.sbs.estacionamento.pocmvc.controller.dto.VeiculoDto;
+import com.sbs.estacionamento.pocmvc.controller.form.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,6 @@ public class VeiculoController {
      *
      * @return
      */
-    // Response Entity?
     @GetMapping
     public ResponseEntity<List<VeiculoDto>> allVehicles(){
         List<Veiculo> veiculos =  veiculoService.findAll();
@@ -39,7 +38,7 @@ public class VeiculoController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<VeiculoDto> findVehicle(@PathVariable Integer id){
         Veiculo veiculo = veiculoService.findById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new VeiculoDto(veiculo));
     }
 
     /**

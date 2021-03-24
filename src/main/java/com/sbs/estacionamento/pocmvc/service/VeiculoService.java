@@ -1,7 +1,7 @@
 package com.sbs.estacionamento.pocmvc.service;
 
-import com.sbs.estacionamento.pocmvc.dto.EditaVeiculoForm;
-import com.sbs.estacionamento.pocmvc.dto.VeiculoForm;
+import com.sbs.estacionamento.pocmvc.controller.form.EditaVeiculoForm;
+import com.sbs.estacionamento.pocmvc.controller.form.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
