@@ -1,7 +1,5 @@
-package com.sbs.estacionamento.pocmvc.controller.exceptions;
+package com.sbs.estacionamento.pocmvc.exceptions;
 
-import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoDataIntegrityViolationException;
-import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

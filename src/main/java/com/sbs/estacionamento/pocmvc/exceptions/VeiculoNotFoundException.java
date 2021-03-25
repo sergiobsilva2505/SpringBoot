@@ -1,4 +1,4 @@
-package com.sbs.estacionamento.pocmvc.service.exceptions;
+package com.sbs.estacionamento.pocmvc.exceptions;
 
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import org.springframework.http.HttpStatus;

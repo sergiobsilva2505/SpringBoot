@@ -1,8 +1,8 @@
 package com.sbs.estacionamento.pocmvc.controller;
 
-import com.sbs.estacionamento.pocmvc.controller.form.EditaVeiculoForm;
-import com.sbs.estacionamento.pocmvc.controller.dto.VeiculoDto;
-import com.sbs.estacionamento.pocmvc.controller.form.VeiculoForm;
+import com.sbs.estacionamento.pocmvc.form.EditaVeiculoForm;
+import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
+import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;

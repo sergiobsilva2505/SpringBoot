@@ -1,4 +1,4 @@
-package com.sbs.estacionamento.pocmvc.controller.form;
+package com.sbs.estacionamento.pocmvc.form;
 
 import org.hibernate.validator.constraints.Length;
 

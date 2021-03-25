@@ -1,4 +1,4 @@
-package com.sbs.estacionamento.pocmvc.service.exceptions;
+package com.sbs.estacionamento.pocmvc.exceptions;
 
 public class VeiculoDataIntegrityViolationException extends RuntimeException {
 

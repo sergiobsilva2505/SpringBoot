@@ -1,4 +1,4 @@
-package com.sbs.estacionamento.pocmvc.controller.exceptions;
+package com.sbs.estacionamento.pocmvc.exceptions;
 
 public class ErroVeiculoFormDto {
 

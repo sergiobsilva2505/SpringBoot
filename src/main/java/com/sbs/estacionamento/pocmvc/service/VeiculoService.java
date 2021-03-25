@@ -1,18 +1,17 @@
 package com.sbs.estacionamento.pocmvc.service;
 
-import com.sbs.estacionamento.pocmvc.controller.form.EditaVeiculoForm;
-import com.sbs.estacionamento.pocmvc.controller.form.VeiculoForm;
+import com.sbs.estacionamento.pocmvc.form.EditaVeiculoForm;
+import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
-import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoDataIntegrityViolationException;
-import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoNotFoundException;
+import com.sbs.estacionamento.pocmvc.exceptions.VeiculoDataIntegrityViolationException;
+import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
-import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +33,7 @@ public class VeiculoService {
                 "Objeto não encontrado! Id: "+ id +", Tipo: " + (Veiculo.class.getName())));
     }
 
-    /* TODO implementação da validação veiculoExiste */
+
     public Veiculo insert(Veiculo obj) {
         Veiculo veiculo = veiculoRepository.findByPlaca(obj.getPlaca());
         if (veiculo != null){
