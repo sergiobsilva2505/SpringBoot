@@ -1,5 +1,6 @@
 package com.sbs.estacionamento.pocmvc.controller;
 
+import com.sbs.estacionamento.pocmvc.dto.StringResponse;
 import com.sbs.estacionamento.pocmvc.form.EditaVeiculoForm;
 import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
 import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
@@ -79,9 +80,9 @@ public class VeiculoController {
      */
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> delete(@PathVariable Integer id){
+    public ResponseEntity<StringResponse> delete(@PathVariable Integer id){
         veiculoService.delete(id);
-        return ResponseEntity.ok().body("Veiculo apagado com sucesso!");
+        return ResponseEntity.ok().body(new StringResponse("Veiculo apagado com sucesso!"));
     }
 
 }
