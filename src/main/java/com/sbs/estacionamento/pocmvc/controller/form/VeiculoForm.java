@@ -12,11 +12,11 @@ public class VeiculoForm {
 
 
     @NotEmpty(message = "marca não pode ser nula ou vazia!")
-    @Length(min = 5, max = 25)
+    @Length(min = 2, max = 15)
     private String marca;
 
     @NotEmpty(message = "modelo não pode ser nulo ou vazio!")
-    @Length(min = 3, max = 25)
+    @Length(min = 2, max = 25)
     private String modelo;
 
     @NotEmpty(message = "cor não pode ser nula ou vazia!")

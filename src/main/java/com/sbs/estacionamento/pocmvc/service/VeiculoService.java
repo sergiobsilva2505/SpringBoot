@@ -5,6 +5,7 @@ import com.sbs.estacionamento.pocmvc.controller.form.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
+import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoDataIntegrityViolationException;
 import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,10 +38,10 @@ public class VeiculoService {
     public Veiculo insert(Veiculo obj) {
         Veiculo veiculo = veiculoRepository.findByPlaca(obj.getPlaca());
         if (veiculo != null){
-            System.out.println("Veiculo já eiste");
-            return  null;
+            throw new VeiculoDataIntegrityViolationException(
+                    "Já existe um veiculo com a placa " + obj.getPlaca() + " cadastrado!");
         }
-       veiculo = veiculoRepository.save(obj);
+        veiculo = veiculoRepository.save(obj);
         return veiculo;
     }
 
@@ -76,18 +77,7 @@ public class VeiculoService {
         return veiculo;
     }
 
-    /**
-     * Verifica se um veiculo ja existe utilizando como parametro, a placa.
-     * @param veiculo
-     * @return
-     */
-    private Boolean veiculoExiste(Veiculo veiculo){
-        List<Veiculo> veiculos = findAll();
-        if (veiculos.contains(veiculo)){
-            return true;
-        }else{
-            return false;
-        }
-    }
+
+
 
 }

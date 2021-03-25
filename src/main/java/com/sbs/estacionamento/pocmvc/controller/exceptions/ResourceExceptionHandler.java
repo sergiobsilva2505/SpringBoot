@@ -1,5 +1,6 @@
 package com.sbs.estacionamento.pocmvc.controller.exceptions;
 
+import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoDataIntegrityViolationException;
 import com.sbs.estacionamento.pocmvc.service.exceptions.VeiculoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -37,6 +38,13 @@ public class ResourceExceptionHandler  {
             dto.add(erro);
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto);
+    }
+
+    @ExceptionHandler(VeiculoDataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> veiculoJaExiste(VeiculoDataIntegrityViolationException e){
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(),
+                e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
 
