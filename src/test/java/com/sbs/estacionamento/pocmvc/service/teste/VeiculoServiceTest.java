@@ -28,4 +28,12 @@ public class VeiculoServiceTest {
         Assert.assertEquals(id, optional.get().getId());
         Assert.assertNotNull(optional.get());
     }
+
+    @Test
+    public void retornaVeiculoPelaPlaca(){
+        String placa = "FOT4936";
+        Veiculo veiculo = veiculoRepository.findByPlaca(placa);
+        Assert.assertEquals(placa, veiculo.getPlaca());
+        Assert.assertNotNull(veiculo);
+    }
 }
