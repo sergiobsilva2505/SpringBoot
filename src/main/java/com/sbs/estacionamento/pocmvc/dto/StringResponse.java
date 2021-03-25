@@ -2,13 +2,13 @@ package com.sbs.estacionamento.pocmvc.dto;
 
 public class StringResponse {
 
-    private String response;
+    private String message;
 
-    public StringResponse(String response) {
-        this.response = response;
+    public StringResponse(String message) {
+        this.message = message;
     }
 
-    public String getResponse() {
-        return response;
+    public String getMessage() {
+        return message;
     }
 }
