@@ -79,9 +79,9 @@ public class VeiculoController {
      */
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
+    public ResponseEntity<String> delete(@PathVariable Integer id){
         veiculoService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Veiculo apagado com sucesso!");
     }
 
 }
