@@ -27,7 +27,6 @@ public class VeiculoService {
     }
 
     public Veiculo findById(Integer id) {
-        // Optional utilizado para evitar fazer verificação com if != null
         Optional<Veiculo> obj = veiculoRepository.findById(id);
         return obj.orElseThrow(() -> new VeiculoNotFoundException(
                 "Objeto não encontrado! Id: "+ id +", Tipo: " + (Veiculo.class.getName())));
@@ -59,6 +58,11 @@ public class VeiculoService {
     }
 
     public Veiculo editaVeiculo(EditaVeiculoForm objDto, Integer id){
+        Veiculo veiculo = veiculoRepository.findByPlaca(objDto.getPlaca());
+        if (veiculo != null){
+            throw new VeiculoDataIntegrityViolationException(
+                    "Já existe um veiculo com a placa " + objDto.getPlaca() + " cadastrado!");
+        }
         Veiculo obj = findById(id);
         obj.setCor(objDto.getCor());
         obj.setPlaca(objDto.getPlaca());
