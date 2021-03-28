@@ -23,9 +23,6 @@ public class VeiculoController {
     @Autowired
     public VeiculoService veiculoService;
 
-    @Autowired
-    public VeiculoDto veiculoDto;
-
     /**
      *
      * @return
@@ -50,12 +47,12 @@ public class VeiculoController {
     /**
      *
      * @param objForm
-     * @return
+     * @return  veiculoDto.dtoFromVeiculo(objForm);
      */
     @PostMapping
     @Transactional
     public ResponseEntity<VeiculoDto> insertVehicle(@Valid @RequestBody VeiculoForm objForm){
-        Veiculo obj = veiculoDto.dtoFromVeiculo(objForm);
+        Veiculo obj = VeiculoDto.dtoFromVeiculo(objForm);
         obj = veiculoService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(new VeiculoDto(obj));

@@ -7,6 +7,7 @@ import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class VeiculoDto {
 
     private Integer id;
@@ -30,14 +31,14 @@ public class VeiculoDto {
         return veiculos.stream().map(VeiculoDto::new).collect(Collectors.toList());
     }
 
-    public Veiculo dtoFromVeiculo(VeiculoForm objDto){
+    public static Veiculo dtoFromVeiculo(VeiculoForm objForm){
         Veiculo veiculo = new Veiculo(
                 null,
-                objDto.getMarca(),
-                objDto.getModelo(),
-                objDto.getCor(),
-                objDto.getPlaca(),
-                objDto.getTipo());
+                objForm.getMarca(),
+                objForm.getModelo(),
+                objForm.getCor(),
+                objForm.getPlaca(),
+                objForm.getTipo());
         return veiculo;
     }
 
