@@ -2,6 +2,7 @@ package com.sbs.estacionamento.pocmvc.service.teste;
 
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
+import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,21 +20,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VeiculoServiceTest {
 
     @Autowired
-    private VeiculoRepository veiculoRepository;
+    private VeiculoService veiculoService;
 
     @Test
     public void deveRetornarUmVeiculoPorId() {
         Integer id = 13;
-        Optional<Veiculo> optional = veiculoRepository.findById(id);
-        Assert.assertEquals(id, optional.get().getId());
-        Assert.assertNotNull(optional.get());
+        Veiculo optional = veiculoService.findById(id);
+        Assert.assertEquals(id, optional.getId());
+        Assert.assertNotNull(optional);
     }
 
-    @Test
-    public void retornaVeiculoPelaPlaca(){
-        String placa = "FOT4936";
-        Veiculo veiculo = veiculoRepository.findByPlaca(placa);
-        Assert.assertEquals(placa, veiculo.getPlaca());
-        Assert.assertNotNull(veiculo);
-    }
 }

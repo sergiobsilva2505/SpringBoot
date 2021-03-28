@@ -43,11 +43,6 @@ public class VeiculoService {
         return veiculo;
     }
 
-    public Veiculo update(Veiculo obj) {
-        Veiculo newObj = findById(obj.getId());
-        return veiculoRepository.save(newObj);
-    }
-
     public void delete(Integer id) {
         Veiculo veiculo =findById(id);
         try {
@@ -58,29 +53,17 @@ public class VeiculoService {
     }
 
     public Veiculo editaVeiculo(EditaVeiculoForm objDto, Integer id){
+        /* Verifica se já existe um veiculo com a placa informada. Não é o que será alterado */
         Veiculo veiculo = veiculoRepository.findByPlaca(objDto.getPlaca());
         if (veiculo != null){
             throw new VeiculoDataIntegrityViolationException(
                     "Já existe um veiculo com a placa " + objDto.getPlaca() + " cadastrado!");
         }
+        /* Faz a busca pelo veiculo que sofrerá alteraçoes e faz essas alterações */
         Veiculo obj = findById(id);
         obj.setCor(objDto.getCor());
         obj.setPlaca(objDto.getPlaca());
-        return obj;
+        return veiculoRepository.save(obj);
     }
-
-    public Veiculo dtoFromVeiculo(VeiculoForm objDto){
-        Veiculo veiculo = new Veiculo(
-                null,
-                objDto.getMarca(),
-                objDto.getModelo(),
-                objDto.getCor(),
-                objDto.getPlaca(),
-                objDto.getTipo());
-        return veiculo;
-    }
-
-
-
 
 }

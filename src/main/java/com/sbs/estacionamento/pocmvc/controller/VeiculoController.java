@@ -23,6 +23,9 @@ public class VeiculoController {
     @Autowired
     public VeiculoService veiculoService;
 
+    @Autowired
+    public VeiculoDto veiculoDto;
+
     /**
      *
      * @return
@@ -52,7 +55,7 @@ public class VeiculoController {
     @PostMapping
     @Transactional
     public ResponseEntity<VeiculoDto> insertVehicle(@Valid @RequestBody VeiculoForm objForm){
-        Veiculo obj = veiculoService.dtoFromVeiculo(objForm);
+        Veiculo obj = veiculoDto.dtoFromVeiculo(objForm);
         obj = veiculoService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(new VeiculoDto(obj));
@@ -64,12 +67,12 @@ public class VeiculoController {
      * @param id
      * @return
      */
-    // to do - mudar para requisição patch e verificar quais atribuots poderão ser alterados
+
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<VeiculoDto> update(@RequestBody @Valid EditaVeiculoForm objForm, @PathVariable Integer id){
         Veiculo obj = veiculoService.editaVeiculo(objForm, id);
-        veiculoService.update(obj);
+        //veiculoService.update(obj);
         return ResponseEntity.ok(new VeiculoDto(obj));
     }
 
