@@ -2,6 +2,7 @@ package com.sbs.estacionamento.pocmvc.service;
 
 import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
+import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,19 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
         List<Veiculo> veiculos = veiculoService.findAll();
         int countVeiculo = veiculoService.findAll().size();
         Assert.assertEquals(countVeiculo, veiculos.size());
+    }
+
+    @Test
+    public  void deveRetornarUmVeiculoPeloId(){
+        Integer id = 12;
+        Veiculo veiculo = veiculoService.findById(id);
+        Assert.assertNotNull(veiculo);
+        Assert.assertEquals(id, veiculo.getId());
+    }
+
+    @Test
+    public void deveRetornarUmaExceptionParaBuscaPorIdDeVeiculoQueNaoExiste(){
+        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.findById(5));
     }
 
 }
