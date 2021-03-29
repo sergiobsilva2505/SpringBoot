@@ -2,6 +2,7 @@ package com.sbs.estacionamento.pocmvc.service;
 
 import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
+import com.sbs.estacionamento.pocmvc.exceptions.VeiculoDataIntegrityViolationException;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
 
     @Test
     public  void deveRetornarUmVeiculoPeloId(){
-        Integer id = 12;
+        Integer id = 20;
         Veiculo veiculo = veiculoService.findById(id);
         Assert.assertNotNull(veiculo);
         Assert.assertEquals(id, veiculo.getId());
@@ -39,6 +40,12 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
     @Test
     public void deveRetornarUmaExceptionParaBuscaPorIdDeVeiculoQueNaoExiste(){
         Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.findById(5));
+    }
+
+    @Test
+    public void deveLancarExcecaoAoTentarDeletarVeiculoPorIdEOVeiculoJaNaoExistirTest(){
+        Integer id = 31;
+        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.delete(id));
     }
 
 }
