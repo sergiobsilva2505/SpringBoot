@@ -1,10 +1,12 @@
 package com.sbs.estacionamento.pocmvc.service;
 
 import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
+import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoDataIntegrityViolationException;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
+import com.sbs.estacionamento.pocmvc.form.EditaVeiculoForm;
 import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import org.junit.Assert;
 import org.junit.Test;
@@ -65,12 +67,37 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
 
     @Test
     public void deveRetornarExcecaoCasoPlacaDeVeiculoParaInserirJaExistaTest(){
-        Veiculo veiculo = new Veiculo();
+        VeiculoForm veiculo = new VeiculoForm();
         veiculo.setMarca("FERRARI");
         veiculo.setModelo("355 GTS TARGA");
         veiculo.setCor("CINZA");
         veiculo.setPlaca("EIL6488");
         veiculo.setTipo(TipoVeiculo.CARRO);
-        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(veiculo));
+        Veiculo obj = VeiculoDto.dtoFromVeiculo(veiculo);
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(obj));
     }
+
+    @Test
+    public void deveRetornarExcecaoCasoPlacaDeVeiculoParaAlterarJaExistaTest(){
+        Integer id = 10;
+        EditaVeiculoForm form = new EditaVeiculoForm();
+        form.setCor("VIOLETA");
+        form.setPlaca("GAF7153");
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.editaVeiculo(form, id));
+    }
+
+    @Test
+    public  void deveEditarVeiculoPorId(){
+        Integer id = 10;
+        EditaVeiculoForm form = new EditaVeiculoForm();
+        form.setCor("ROXA");
+        form.setPlaca("KED9708");
+        Veiculo veiculo = veiculoService.editaVeiculo(form, id);
+        Assert.assertEquals("ROXA", veiculo.getCor());
+        Assert.assertEquals("KED9708", veiculo.getPlaca());
+    }
+
+    /* TESTES DAS VALIDAÇÕES */
+
+   
 }
