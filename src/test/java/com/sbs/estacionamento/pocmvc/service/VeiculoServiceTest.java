@@ -2,8 +2,10 @@ package com.sbs.estacionamento.pocmvc.service;
 
 import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
+import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoDataIntegrityViolationException;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
+import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +41,7 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
 
     @Test
     public void deveRetornarUmaExceptionParaBuscaPorIdDeVeiculoQueNaoExiste(){
-        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.findById(5));
+        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.findById(40));
     }
 
     @Test
@@ -48,4 +50,27 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
         Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.delete(id));
     }
 
+    @Test
+    public void deveInserirNovoVeiculoTest(){
+        Veiculo veiculo = new Veiculo();
+        veiculo.setMarca("FERRARI");
+        veiculo.setModelo("355 GTS TARGA");
+        veiculo.setCor("CINZA");
+        veiculo.setPlaca("BIM6140");
+        veiculo.setTipo(TipoVeiculo.CARRO);
+        Veiculo obj = veiculoService.insert(veiculo);
+        Assert.assertNotNull(obj);
+        Assert.assertEquals(obj.getPlaca(), veiculo.getPlaca());
+    }
+
+    @Test
+    public void deveRetornarExcecaoCasoPlacaDeVeiculoParaInserirJaExistaTest(){
+        Veiculo veiculo = new Veiculo();
+        veiculo.setMarca("FERRARI");
+        veiculo.setModelo("355 GTS TARGA");
+        veiculo.setCor("CINZA");
+        veiculo.setPlaca("EIL6488");
+        veiculo.setTipo(TipoVeiculo.CARRO);
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(veiculo));
+    }
 }
