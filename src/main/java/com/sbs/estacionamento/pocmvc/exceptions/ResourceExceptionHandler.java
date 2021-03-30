@@ -38,12 +38,12 @@ public class ResourceExceptionHandler  {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto);
     }
 
-    @ExceptionHandler(VeiculoDataIntegrityViolationException.class)
+   /* @ExceptionHandler(VeiculoDataIntegrityViolationException.class)
     public ResponseEntity<StandardError> veiculoJaExiste(VeiculoDataIntegrityViolationException e){
         StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(),
                 e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-    }
+    }*/
 
 
 }

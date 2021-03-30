@@ -4,16 +4,19 @@ import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
 import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
+import com.sbs.estacionamento.pocmvc.exceptions.ErroVeiculoFormDto;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoDataIntegrityViolationException;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
 import com.sbs.estacionamento.pocmvc.form.EditaVeiculoForm;
 import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
@@ -54,13 +57,13 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
 
     @Test
     public void deveInserirNovoVeiculoTest(){
-        Veiculo veiculo = new Veiculo();
+        VeiculoForm veiculo = new VeiculoForm();
         veiculo.setMarca("FERRARI");
         veiculo.setModelo("355 GTS TARGA");
         veiculo.setCor("CINZA");
         veiculo.setPlaca("BIM6140");
         veiculo.setTipo(TipoVeiculo.CARRO);
-        Veiculo obj = veiculoService.insert(veiculo);
+        Veiculo obj = veiculoService.insert(VeiculoDto.dtoFromVeiculo(veiculo));
         Assert.assertNotNull(obj);
         Assert.assertEquals(obj.getPlaca(), veiculo.getPlaca());
     }
@@ -87,7 +90,7 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
     }
 
     @Test
-    public  void deveEditarVeiculoPorId(){
+    public  void deveEditarVeiculoPorIdTest(){
         Integer id = 10;
         EditaVeiculoForm form = new EditaVeiculoForm();
         form.setCor("ROXA");
@@ -99,5 +102,14 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
 
     /* TESTES DAS VALIDAÇÕES */
 
-   
+   @Test
+    public void deveLancarExcecaoParaCampoMarcaNuloOuBrancoParaNovoVeiculo(){
+       VeiculoForm veiculo = new VeiculoForm();
+       veiculo.setMarca("F");
+       veiculo.setModelo("355 GTS TARGA");
+       veiculo.setCor("CINZA");
+       veiculo.setPlaca("EIL6488");
+       veiculo.setTipo(TipoVeiculo.CARRO);
+       Assert.assertThrows(MethodArgumentNotValidException.class, () -> VeiculoDto.dtoFromVeiculo(veiculo));
+   }
 }
