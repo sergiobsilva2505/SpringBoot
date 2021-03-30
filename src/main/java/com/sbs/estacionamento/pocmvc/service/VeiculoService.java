@@ -18,8 +18,14 @@ import java.util.Optional;
 @Service
 public class VeiculoService {
 
-    @Autowired
+
     public VeiculoRepository veiculoRepository;
+
+    /* INJEÇ*/
+    @Autowired
+    public VeiculoService(VeiculoRepository veiculoRepository){
+        this.veiculoRepository = veiculoRepository;
+    }
 
     public List<Veiculo> findAll(){
         List<Veiculo> list = veiculoRepository.findAll();
