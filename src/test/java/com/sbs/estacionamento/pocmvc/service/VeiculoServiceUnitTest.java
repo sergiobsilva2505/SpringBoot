@@ -4,16 +4,12 @@ import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +17,7 @@ import java.util.List;
 
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 class VeiculoServiceUnitTest extends PocMvcApplicationTests {
 
     @Autowired
@@ -34,15 +29,9 @@ class VeiculoServiceUnitTest extends PocMvcApplicationTests {
     @BeforeEach
     public void beforeEach(){
         MockitoAnnotations.openMocks(this);
-        this.veiculoService = new VeiculoService(veiculoRepoMock);
     }
 
-    @Test
-    public  void deveRetornarUmaListaDeVeiculosTest(){
-        List<Veiculo> lista = veiculos();
-        Mockito.when(veiculoRepoMock.findAll()).thenReturn(lista);
-        Assert.assertFalse(lista.isEmpty());
-    }
+
 
 
 

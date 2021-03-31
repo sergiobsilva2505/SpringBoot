@@ -15,9 +15,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,11 +28,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class VeiculoServiceIntegrationTest {
 
-    @Autowired
+    @Spy
+    @InjectMocks
     private VeiculoService veiculoService;
 
     @Mock
@@ -41,13 +40,14 @@ public class VeiculoServiceIntegrationTest {
 
     @BeforeEach
     public void beforeEach(){
-        MockitoAnnotations.initMocks(this);
-        this.veiculoService = new VeiculoService(veiculoRepoMock);
+        MockitoAnnotations.openMocks(this);
     }
 
     /* testes unitarios*/
     @Test
     public  void deveRetornarUmaListaDeVeiculosVaziaTest(){
+        List<Veiculo> lista = new ArrayList<>();
+        Mockito.when(veiculoRepoMock.findAll()).thenReturn(lista);
         List<Veiculo> veiculos = veiculoRepoMock.findAll();
         Assert.assertTrue(veiculos.isEmpty());
     }
@@ -55,19 +55,33 @@ public class VeiculoServiceIntegrationTest {
     /* testes unitarios */
     @Test
     public  void deveRetornarUmaListaDeVeiculosTest(){
+        Veiculo vei01 = new Veiculo(1, "VOLKSWAGEN", "POLO", "PRATA", "ENS2923",
+                TipoVeiculo.CARRO);
+        Veiculo vei10 = new Veiculo(10, "DAFRA", "APACHE RTR 200", "GRAFITE", "GJU2609",
+                TipoVeiculo.MOTO);
         List<Veiculo> lista = veiculos();
         Mockito.when(veiculoRepoMock.findAll()).thenReturn(lista);
+        List<Veiculo> objList = veiculoService.findAll();
         Assert.assertFalse(lista.isEmpty());
+        Assert.assertEquals(lista.get(0).getId(), vei01.getId());
+        Assert.assertEquals(lista.get(9).getPlaca(), vei10.getPlaca());
     }
 
     @Test
-    public void deveLancarExcecaoQuandoPlacaJaExistir(){
+    public void deveLancarExcecaoQuandoPlacaJaExistirTest(){
         List<Veiculo> lista = veiculos();
         Veiculo veiculo = new Veiculo(6, "HONDA", "CG125", "VERMELHO", "CYC1484", TipoVeiculo.MOTO);
 
         Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> Mockito.when(veiculoRepoMock.findByPlaca("CYC1484")).thenReturn(lista.get(5)));
         Mockito.verifyNoInteractions(veiculoRepoMock.save(veiculo));
     }
+
+
+
+    public void deveRetornarVeiculoEditadoTest(){
+
+    }
+
 
     /* $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ */
 
