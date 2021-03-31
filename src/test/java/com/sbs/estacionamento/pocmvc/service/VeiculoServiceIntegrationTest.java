@@ -1,32 +1,22 @@
-package com.sbs.estacionamento.pocmvc.service2;
+package com.sbs.estacionamento.pocmvc.service;
 
-import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
-import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
 import com.sbs.estacionamento.pocmvc.entities.Veiculo;
 import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
-import com.sbs.estacionamento.pocmvc.exceptions.ErroVeiculoFormDto;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoDataIntegrityViolationException;
 import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
 import com.sbs.estacionamento.pocmvc.form.EditaVeiculoForm;
-import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
-import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VeiculoServiceIntegrationTest {
@@ -43,16 +33,15 @@ public class VeiculoServiceIntegrationTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    /* testes unitarios*/
-    @Test
+    /*     ########## TESTES UNITÁRIOS ##########     */
+    /* @Test
     public  void deveRetornarUmaListaDeVeiculosVaziaTest(){
         List<Veiculo> lista = new ArrayList<>();
         Mockito.when(veiculoRepoMock.findAll()).thenReturn(lista);
         List<Veiculo> veiculos = veiculoRepoMock.findAll();
         Assert.assertTrue(veiculos.isEmpty());
-    }
+    }*/
 
-    /* testes unitarios */
     @Test
     public  void deveRetornarUmaListaDeVeiculosTest(){
         Veiculo vei01 = new Veiculo(1, "VOLKSWAGEN", "POLO", "PRATA", "ENS2923",
@@ -61,19 +50,53 @@ public class VeiculoServiceIntegrationTest {
                 TipoVeiculo.MOTO);
         List<Veiculo> lista = veiculos();
         Mockito.when(veiculoRepoMock.findAll()).thenReturn(lista);
+
         List<Veiculo> objList = veiculoService.findAll();
-        Assert.assertFalse(lista.isEmpty());
-        Assert.assertEquals(lista.get(0).getId(), vei01.getId());
-        Assert.assertEquals(lista.get(9).getPlaca(), vei10.getPlaca());
+
+        Assert.assertFalse(objList.isEmpty());
+        Assert.assertEquals(objList.get(0).getId(), vei01.getId());
+        Assert.assertEquals(objList.get(9).getPlaca(), vei10.getPlaca());
+    }
+
+    @Test
+    public void deveRetornarUmVeiculoPorIdTest(){
+        Integer id = 6;
+        Optional<Veiculo> veiculo = Optional.of(new Veiculo(6, "HONDA", "CG125",
+                "VERMELHO","CYC1484", TipoVeiculo.MOTO));
+        Mockito.when(veiculoRepoMock.findById(id)).thenReturn(veiculo);
+
+        Veiculo obj = veiculoService.findById(id);
+        Assert.assertEquals(obj.getId(), id);
+    }
+
+    @Test
+    public void deveRetornarUmaExceptionQuandoVeiculoPorIdNãoExistirTest(){
+        Integer id = 6;
+        Optional<Veiculo> veiculo = Optional.ofNullable(null);
+        Mockito.when(veiculoRepoMock.findById(id)).thenReturn(veiculo);
+
+        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.findById(id));
     }
 
     @Test
     public void deveLancarExcecaoQuandoPlacaJaExistirTest(){
         List<Veiculo> lista = veiculos();
-        Veiculo veiculo = new Veiculo(6, "HONDA", "CG125", "VERMELHO", "CYC1484", TipoVeiculo.MOTO);
-
-        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> Mockito.when(veiculoRepoMock.findByPlaca("CYC1484")).thenReturn(lista.get(5)));
+        Veiculo veiculo = new Veiculo(6, "HONDA", "CG125", "VERMELHO", "CYC1484",
+                TipoVeiculo.MOTO);
         Mockito.verifyNoInteractions(veiculoRepoMock.save(veiculo));
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class,
+                () -> Mockito.when(.findByPlaca("CYC1484")).thenReturn(lista.get(5)));
+
+
+    }
+
+    @Test
+    public void deveRetornarExcecaoCasoPlacaDeVeiculoParaInserirJaExistaTest(){
+        Veiculo vei05 = new Veiculo(5, "CHEVROLET", "MERIVA", "AMARELO", "CYC1484",
+                TipoVeiculo.CARRO);
+        Mockito.when(veiculoRepoMock.findByPlaca("CYC1484")).thenReturn(vei05);
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(vei05));
+        Mockito.verifyNoMoreInteractions((veiculoRepoMock.save(vei05)));
     }
 
 
@@ -82,9 +105,9 @@ public class VeiculoServiceIntegrationTest {
 
     }
 
+    /*     ########## FIM DOS TESTES UNITÁRIOS ##########     */
 
-    /* $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ */
-
+    /*     ########## TESTES DE INTEGRAÇÃO ##########     */
 
     @Test
     public  void deveRetornarUmVeiculoPeloId(){
@@ -120,18 +143,7 @@ public class VeiculoServiceIntegrationTest {
         Assert.assertEquals(obj.getPlaca(), veiculo.getPlaca());
     }
 
-    // Esse não pde ser considerado um teste da classe VeiculoServeice pois a classe não recebe nenhum objeto
-    // VeiculoForm
-    @Test
-    public void deveRetornarExcecaoCasoPlacaDeVeiculoParaInserirJaExistaTest(){
-        Veiculo veiculo = new Veiculo();
-        veiculo.setMarca("FERRARI");
-        veiculo.setModelo("355 GTS TARGA");
-        veiculo.setCor("CINZA");
-        veiculo.setPlaca("EIL6488");
-        veiculo.setTipo(TipoVeiculo.CARRO);
-        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(veiculo));
-    }
+
 
     @Test
     public void deveRetornarExcecaoCasoPlacaDeVeiculoParaAlterarJaExistaTest(){
@@ -153,18 +165,9 @@ public class VeiculoServiceIntegrationTest {
         Assert.assertEquals("KED9708", veiculo.getPlaca());
     }
 
-    /* deveria ser feito na classe controller*/
+    /*     ########## FIM DOS TESTES DE INTEGRAÇÃO ##########     */
 
-    /* @Test
-    public void deveLancarExcecaoParaCampoMarcaNuloOuBrancoParaNovoVeiculo(){
-       VeiculoForm veiculo = new VeiculoForm();
-       veiculo.setMarca("F");
-       veiculo.setModelo("355 GTS TARGA");
-       veiculo.setCor("CINZA");
-       veiculo.setPlaca("EIL6488");
-       veiculo.setTipo(TipoVeiculo.CARRO);
-       Assert.assertThrows(MethodArgumentNotValidException.class, () -> VeiculoDto.dtoFromVeiculo(veiculo));
-   } */
+    /*     ########## MÉTODOS AUXILIARES ##########     */
 
    private List<Veiculo> veiculos(){
        List<Veiculo> lista = new ArrayList<>();

@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-
 @RunWith(MockitoJUnitRunner.class)
 class VeiculoServiceUnitTest extends PocMvcApplicationTests {
 
