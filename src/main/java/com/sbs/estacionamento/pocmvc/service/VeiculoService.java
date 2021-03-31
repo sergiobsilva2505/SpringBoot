@@ -30,13 +30,14 @@ public class VeiculoService {
         return list;
     }
 
+    /* TESTAR */
     public Veiculo findById(Integer id) {
         Optional<Veiculo> obj = veiculoRepository.findById(id);
         return obj.orElseThrow(() -> new VeiculoNotFoundException(
                 "Objeto não encontrado! Id: "+ id +", Tipo: " + (Veiculo.class.getName())));
     }
 
-
+    /* testar */
     public Veiculo insert(Veiculo obj) {
         Veiculo veiculo = veiculoRepository.findByPlaca(obj.getPlaca());
         if (veiculo != null){

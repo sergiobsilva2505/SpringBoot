@@ -1,4 +1,4 @@
-package com.sbs.estacionamento.pocmvc.service;
+package com.sbs.estacionamento.pocmvc.service2;
 
 import com.sbs.estacionamento.pocmvc.PocMvcApplicationTests;
 import com.sbs.estacionamento.pocmvc.dto.VeiculoDto;
@@ -10,17 +10,20 @@ import com.sbs.estacionamento.pocmvc.exceptions.VeiculoNotFoundException;
 import com.sbs.estacionamento.pocmvc.form.EditaVeiculoForm;
 import com.sbs.estacionamento.pocmvc.form.VeiculoForm;
 import com.sbs.estacionamento.pocmvc.repo.VeiculoRepository;
+import com.sbs.estacionamento.pocmvc.service.VeiculoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,9 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class VeiculoServiceTest extends PocMvcApplicationTests {
-
-
+public class VeiculoServiceIntegrationTest {
 
     @Autowired
     private VeiculoService veiculoService;
@@ -41,15 +42,26 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
     @BeforeEach
     public void beforeEach(){
         MockitoAnnotations.initMocks(this);
-        List<Veiculo> veiculos = veiculos();
         this.veiculoService = new VeiculoService(veiculoRepoMock);
     }
 
+    /* testes unitarios*/
     @Test
-    public  void deveRetornarUmaListaDeVeiculosTest(){
+    public  void deveRetornarUmaListaDeVeiculosVaziaTest(){
         List<Veiculo> veiculos = veiculoRepoMock.findAll();
         Assert.assertTrue(veiculos.isEmpty());
     }
+
+    /* testes unitarios */
+    @Test
+    public  void deveRetornarUmaListaDeVeiculosTest(){
+        List<Veiculo> lista = veiculos();
+        Mockito.when(veiculoRepoMock.findAll()).thenReturn(lista);
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    /* $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ */
+
 
     @Test
     public  void deveRetornarUmVeiculoPeloId(){
@@ -58,6 +70,8 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
         Assert.assertNotNull(veiculo);
         Assert.assertEquals(id, veiculo.getId());
     }
+
+
 
     @Test
     public void deveRetornarUmaExceptionParaBuscaPorIdDeVeiculoQueNaoExiste(){
@@ -72,27 +86,28 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
 
     @Test
     public void deveInserirNovoVeiculoTest(){
-        VeiculoForm veiculo = new VeiculoForm();
+        Veiculo veiculo = new Veiculo();
         veiculo.setMarca("FERRARI");
         veiculo.setModelo("355 GTS TARGA");
         veiculo.setCor("CINZA");
         veiculo.setPlaca("BIM6140");
         veiculo.setTipo(TipoVeiculo.CARRO);
-        Veiculo obj = veiculoService.insert(VeiculoDto.dtoFromVeiculo(veiculo));
+        Veiculo obj = veiculoService.insert(veiculo);
         Assert.assertNotNull(obj);
         Assert.assertEquals(obj.getPlaca(), veiculo.getPlaca());
     }
 
+    // Esse não pde ser considerado um teste da classe VeiculoServeice pois a classe não recebe nenhum objeto
+    // VeiculoForm
     @Test
     public void deveRetornarExcecaoCasoPlacaDeVeiculoParaInserirJaExistaTest(){
-        VeiculoForm veiculo = new VeiculoForm();
+        Veiculo veiculo = new Veiculo();
         veiculo.setMarca("FERRARI");
         veiculo.setModelo("355 GTS TARGA");
         veiculo.setCor("CINZA");
         veiculo.setPlaca("EIL6488");
         veiculo.setTipo(TipoVeiculo.CARRO);
-        Veiculo obj = VeiculoDto.dtoFromVeiculo(veiculo);
-        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(obj));
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(veiculo));
     }
 
     @Test
@@ -115,9 +130,9 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
         Assert.assertEquals("KED9708", veiculo.getPlaca());
     }
 
-    /* TESTES DAS VALIDAÇÕES */
+    /* deveria ser feito na classe controller*/
 
-   @Test
+    /* @Test
     public void deveLancarExcecaoParaCampoMarcaNuloOuBrancoParaNovoVeiculo(){
        VeiculoForm veiculo = new VeiculoForm();
        veiculo.setMarca("F");
@@ -126,9 +141,10 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
        veiculo.setPlaca("EIL6488");
        veiculo.setTipo(TipoVeiculo.CARRO);
        Assert.assertThrows(MethodArgumentNotValidException.class, () -> VeiculoDto.dtoFromVeiculo(veiculo));
-   }
+   } */
 
    private List<Veiculo> veiculos(){
+       List<Veiculo> lista = new ArrayList<>();
        Veiculo vei01 = new Veiculo(1, "VOLKSWAGEN", "POLO", "PRATA", "ENS2923", TipoVeiculo.CARRO);
        Veiculo vei02 = new Veiculo(2, "FIAT", "MOBI", "BRANCO", "BKC7456", TipoVeiculo.CARRO);
        Veiculo vei03 = new Veiculo(3, "CITROEN", "AIRCROSS", "PRATA", "DNX4368", TipoVeiculo.CARRO);
@@ -139,7 +155,7 @@ public class VeiculoServiceTest extends PocMvcApplicationTests {
        Veiculo vei08 = new Veiculo(8, "SUZUKI", "DK150FI", "AZUL", "BPA8966", TipoVeiculo.MOTO);
        Veiculo vei09 = new Veiculo(9, "YAMAHA", "FACTOR 125I UBS", "PRETA", "EAO1581", TipoVeiculo.MOTO);
        Veiculo vei10 = new Veiculo(10, "DAFRA", "APACHE RTR 200", "GRAFITE", "GJU2609", TipoVeiculo.MOTO);
-       List<Veiculo> lista = Arrays.asList(vei01, vei02, vei03, vei04, vei05, vei06, vei07, vei08, vei09, vei10);
+      lista.addAll(Arrays.asList(vei01, vei02, vei03, vei04, vei05, vei06, vei07, vei08, vei09, vei10));
 
        return lista;
    }
