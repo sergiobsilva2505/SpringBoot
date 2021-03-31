@@ -60,6 +60,15 @@ public class VeiculoServiceIntegrationTest {
         Assert.assertFalse(lista.isEmpty());
     }
 
+    @Test
+    public void deveLancarExcecaoQuandoPlacaJaExistir(){
+        List<Veiculo> lista = veiculos();
+        Veiculo veiculo = new Veiculo(6, "HONDA", "CG125", "VERMELHO", "CYC1484", TipoVeiculo.MOTO);
+
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> Mockito.when(veiculoRepoMock.findByPlaca("CYC1484")).thenReturn(lista.get(5)));
+        Mockito.verifyNoInteractions(veiculoRepoMock.save(veiculo));
+    }
+
     /* $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ */
 
 
