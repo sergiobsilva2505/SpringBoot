@@ -113,17 +113,31 @@ public class VeiculoServiceIntegrationTest {
         Mockito.verify(veiculoRepoMock, Mockito.never()).save(vei05);
     }
 
-    /* DELETE, notar quando id não existir */
+    /* DELETE */
 
     @Test
     public void deveDeletarVeiculoPorIdTest(){
         Integer id = 4;
-        Optional<Veiculo> vei04 = Optional.of(new Veiculo(4, "FERRARI", "FF F1", "VERDE",
-                "CFK7094", TipoVeiculo.CARRO));
-        Mockito.when(veiculoRepoMock.findById(vei04.get().getId())).thenReturn(vei04.get());
-        //Mockito.verify(veiculoRepoMock).delete(vei04.get());
+        Veiculo vei04 = new Veiculo(id, "FERRARI", "FF F1", "VERDE",
+                "CFK7094", TipoVeiculo.CARRO);
+        Mockito.doReturn(vei04).when(veiculoService).findById(ArgumentMatchers.anyInt());
+        Mockito.doNothing().when(veiculoRepoMock).delete(ArgumentMatchers.any(Veiculo.class));
 
         veiculoService.delete(id);
+
+        Mockito.verify(veiculoRepoMock).delete(ArgumentMatchers.any(Veiculo.class));
+    }
+
+    @Test
+    public void deveRetornarExcecaoQuandoVeiculoASerDeletadoNaoExistir(){
+        Integer id = 4;
+        Veiculo vei04 = new Veiculo(id, "FERRARI", "FF F1", "VERDE",
+                "CFK7094", TipoVeiculo.CARRO);
+        Mockito.doReturn(null).when(veiculoService).findById(ArgumentMatchers.isNull());
+
+        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.delete(id));
+        
+        Mockito.verify(veiculoRepoMock, Mockito.never()).delete(ArgumentMatchers.any(Veiculo.class));
     }
 
     /*     ########## FIM DOS TESTES UNITÁRIOS ##########     */
