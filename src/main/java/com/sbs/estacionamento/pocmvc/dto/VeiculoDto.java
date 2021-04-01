@@ -42,6 +42,8 @@ public class VeiculoDto {
         return veiculo;
     }
 
+
+
     public Integer getId() {
         return id;
     }

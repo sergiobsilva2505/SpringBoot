@@ -1,5 +1,7 @@
 package com.sbs.estacionamento.pocmvc.form;
 
+import com.sbs.estacionamento.pocmvc.entities.Veiculo;
+import com.sbs.estacionamento.pocmvc.entities.enums.TipoVeiculo;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,6 +21,11 @@ public class EditaVeiculoForm {
 
     public EditaVeiculoForm() {
 
+    }
+
+    public static Veiculo formToVeiculo(EditaVeiculoForm objForm){
+        Veiculo veiculo = new Veiculo(objForm.getCor(), objForm.getPlaca());
+        return veiculo;
     }
 
     public String getCor() {

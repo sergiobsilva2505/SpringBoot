@@ -35,13 +35,7 @@ public class VeiculoServiceIntegrationTest {
     }
 
     /*     ########## TESTES UNITÁRIOS ##########     */
-    /* @Test
-    public  void deveRetornarUmaListaDeVeiculosVaziaTest(){
-        List<Veiculo> lista = new ArrayList<>();
-        Mockito.when(veiculoRepoMock.findAll()).thenReturn(lista);
-        List<Veiculo> veiculos = veiculoRepoMock.findAll();
-        Assert.assertTrue(veiculos.isEmpty());
-    }*/
+
 
     /* FINDALL */
     @Test
@@ -129,45 +123,65 @@ public class VeiculoServiceIntegrationTest {
     }
 
     @Test
-    public void deveRetornarExcecaoQuandoVeiculoASerDeletadoNaoExistir(){
+    public void deveRetornarExcecaoQuandoVeiculoASerDeletadoNaoExistirTest(){
         Integer id = 4;
         Veiculo vei04 = new Veiculo(id, "FERRARI", "FF F1", "VERDE",
                 "CFK7094", TipoVeiculo.CARRO);
         Mockito.doReturn(null).when(veiculoService).findById(ArgumentMatchers.isNull());
 
         Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.delete(id));
-        
+
         Mockito.verify(veiculoRepoMock, Mockito.never()).delete(ArgumentMatchers.any(Veiculo.class));
+    }
+
+    @Test
+    public void deveEditarPlacaECorDeUmVeiculoTest(){
+        Integer id = 4;
+        Veiculo vei04 = new Veiculo(id, "FERRARI", "FF F1", "VERDE",
+                "CFK7094", TipoVeiculo.CARRO);
+        Veiculo toEdit = new Veiculo("CINZA","NEW7278");
+        Mockito.doReturn(null).when(veiculoRepoMock).findByPlaca(toEdit.getPlaca());
+        Mockito.doReturn(vei04).when(veiculoService).findById(id);
+
+        Veiculo editado = veiculoService.editaVeiculo(toEdit, id);
+
+        Assert.assertEquals(vei04.getCor(), toEdit.getCor());
+        Assert.assertEquals(vei04.getPlaca(), toEdit.getPlaca());
+
+        Mockito.verify(veiculoRepoMock).save(ArgumentMatchers.any(Veiculo.class));
+    }
+
+    @Test
+    public void deveRetornarExcecaoQuandoNovaPlacaDaAlteraçãoJaExistirTest(){
+        Integer id = 4;
+        Veiculo vei04 = new Veiculo(id, "FERRARI", "FF F1", "VERDE",
+                "CFK7094", TipoVeiculo.CARRO);
+        Veiculo toEdit = new Veiculo("CINZA","NEW7278");
+        Mockito.doReturn(vei04).when(veiculoRepoMock).findByPlaca(toEdit.getPlaca());
+
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () ->veiculoService.editaVeiculo(toEdit, id));
+
+        Mockito.verify(veiculoRepoMock, Mockito.never()).save(ArgumentMatchers.any(Veiculo.class));
+        Mockito.verify(veiculoService, Mockito.never()).findById(ArgumentMatchers.anyInt());
+    }
+
+    /* verificar */
+    @Test
+    public void deveRetornarExcecaoQuandoVeiculoASerEditadoNãoForEncontradoTest(){
+        Integer id = 4;
+        Veiculo vei04 = new Veiculo(id, "FERRARI", "FF F1", "VERDE",
+                "CFK7094", TipoVeiculo.CARRO);
+        Veiculo toEdit = new Veiculo("CINZA","NEW7278");
+        Mockito.doReturn(null).when(veiculoRepoMock).findByPlaca(toEdit.getPlaca());
+        Mockito.doReturn(null).when(veiculoService).findById(ArgumentMatchers.isNull());
+
+        Assert.assertThrows(VeiculoNotFoundException.class, () ->veiculoService.editaVeiculo(toEdit, id));
+
+        Mockito.verify(veiculoRepoMock, Mockito.never()).save(ArgumentMatchers.any(Veiculo.class));
     }
 
     /*     ########## FIM DOS TESTES UNITÁRIOS ##########     */
 
-    /*     ########## TESTES DE INTEGRAÇÃO ##########     */
-
-    @Test
-    public void deveRetornarExcecaoCasoPlacaDeVeiculoParaAlterarJaExistaTest(){
-        Integer id = 10;
-        EditaVeiculoForm form = new EditaVeiculoForm();
-        form.setCor("VIOLETA");
-        form.setPlaca("GAF7153");
-        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.editaVeiculo(form, id));
-    }
-
-    @Test
-    public  void deveEditarVeiculoPorIdTest(){
-        Veiculo vei08 = new Veiculo(8, "SUZUKI", "DK150FI", "AZUL", "BPA8966", TipoVeiculo.MOTO);
-        EditaVeiculoForm form = new EditaVeiculoForm();
-        form.setCor("ROXA");
-        form.setPlaca("KED9708");
-        /*Veiculo veiculo =
-        Mockito.when(veiculoRepoMock.save(vei08)).thenReturn(vei08);
-
-        Veiculo veiculo = veiculoService.editaVeiculo(form, vei08.getId());
-        Assert.assertEquals("ROXA", veiculo.getCor());
-        Assert.assertEquals("KED9708", veiculo.getPlaca());*/
-    }
-
-    /*     ########## FIM DOS TESTES DE INTEGRAÇÃO ##########     */
 
     /*     ########## MÉTODOS AUXILIARES ##########     */
 

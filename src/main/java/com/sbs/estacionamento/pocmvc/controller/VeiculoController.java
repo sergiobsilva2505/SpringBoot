@@ -68,7 +68,8 @@ public class VeiculoController {
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<VeiculoDto> update(@RequestBody @Valid EditaVeiculoForm objForm, @PathVariable Integer id){
-        Veiculo obj = veiculoService.editaVeiculo(objForm, id);
+        Veiculo veiculo = EditaVeiculoForm.formToVeiculo(objForm);
+        Veiculo obj = veiculoService.editaVeiculo(veiculo, id);
         //veiculoService.update(obj);
         return ResponseEntity.ok(new VeiculoDto(obj));
     }

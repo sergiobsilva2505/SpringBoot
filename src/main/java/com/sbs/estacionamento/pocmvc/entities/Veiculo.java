@@ -38,6 +38,11 @@ public class Veiculo implements Serializable {
         this.tipo = tipo;
     }
 
+    public Veiculo(String cor, String placa) {
+        this.cor = cor;
+        this.placa = placa;
+    }
+
     public Integer getId() {
         return id;
     }
