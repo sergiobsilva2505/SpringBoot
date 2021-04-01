@@ -50,7 +50,7 @@ public class VeiculoService {
     }
 
     public void delete(Integer id) {
-        Veiculo veiculo =findById(id);
+        Veiculo veiculo = findById(id);
         try {
             veiculoRepository.delete(veiculo);
         }catch ( DataIntegrityViolationException e){
