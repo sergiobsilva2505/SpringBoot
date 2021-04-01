@@ -21,6 +21,11 @@ public class VeiculoService {
     @Autowired
     public VeiculoRepository veiculoRepository;
 
+    /*@Autowired
+    public VeiculoService(VeiculoRepository veiculoRepository){
+        this.veiculoRepository = veiculoRepository;
+    }*/
+
     public List<Veiculo> findAll(){
         List<Veiculo> list = veiculoRepository.findAll();
         return list;

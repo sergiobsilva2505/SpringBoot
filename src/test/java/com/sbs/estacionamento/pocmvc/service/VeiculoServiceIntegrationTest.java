@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.OngoingStubbing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +43,7 @@ public class VeiculoServiceIntegrationTest {
         Assert.assertTrue(veiculos.isEmpty());
     }*/
 
+    /* FINDALL */
     @Test
     public  void deveRetornarUmaListaDeVeiculosTest(){
         Veiculo vei01 = new Veiculo(1, "VOLKSWAGEN", "POLO", "PRATA", "ENS2923",
@@ -57,7 +59,7 @@ public class VeiculoServiceIntegrationTest {
         Assert.assertEquals(objList.get(0).getId(), vei01.getId());
         Assert.assertEquals(objList.get(9).getPlaca(), vei10.getPlaca());
     }
-
+    /* FIND BY ID */
     @Test
     public void deveRetornarUmVeiculoPorIdTest(){
         Integer id = 6;
@@ -78,15 +80,26 @@ public class VeiculoServiceIntegrationTest {
         Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.findById(id));
     }
 
+    /* INSERT */
     @Test
-    public void deveLancarExcecaoQuandoPlacaJaExistirTest(){
-        List<Veiculo> lista = veiculos();
+    public void deveRetornarUmaExceptionQuandoVeiculoASerPersistidoJaExistirTest(){
         Veiculo veiculo = new Veiculo(6, "HONDA", "CG125", "VERMELHO", "CYC1484",
                 TipoVeiculo.MOTO);
-        Mockito.verifyNoInteractions(veiculoRepoMock.save(veiculo));
-        Assert.assertThrows(VeiculoDataIntegrityViolationException.class,
-                () -> Mockito.when(.findByPlaca("CYC1484")).thenReturn(lista.get(5)));
+        Mockito.when(veiculoRepoMock.findByPlaca(veiculo.getPlaca())).thenReturn(veiculo);
 
+        Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(veiculo));
+    }
+
+    @Test
+    public void devePersistirVeiculoTest(){
+        Veiculo veiculo = new Veiculo(6, "HONDA", "CG125", "VERMELHO", "CYC1484",
+                TipoVeiculo.MOTO);
+        Mockito.when(veiculoRepoMock.findByPlaca(veiculo.getPlaca())).thenReturn(null);
+        Mockito.when(veiculoRepoMock.save(veiculo)).thenReturn(veiculo);
+
+        Veiculo obj = veiculoService.insert(veiculo);
+
+        Mockito.verify(veiculoRepoMock).save(obj);
 
     }
 
@@ -95,9 +108,25 @@ public class VeiculoServiceIntegrationTest {
         Veiculo vei05 = new Veiculo(5, "CHEVROLET", "MERIVA", "AMARELO", "CYC1484",
                 TipoVeiculo.CARRO);
         Mockito.when(veiculoRepoMock.findByPlaca("CYC1484")).thenReturn(vei05);
+
         Assert.assertThrows(VeiculoDataIntegrityViolationException.class, () -> veiculoService.insert(vei05));
-        Mockito.verifyNoMoreInteractions((veiculoRepoMock.save(vei05)));
+        Mockito.verify(veiculoRepoMock, Mockito.never()).save(vei05);
     }
+
+    /* DELETE, notar quando id não existir */
+    @Test
+    public void deveDeletarVeiculoPorIdTest(){
+        Integer id = 4;
+        Optional<Veiculo> vei04 = Optional.ofNullable(new Veiculo(4, "FERRARI", "FF F1", "VERDE",
+                "CFK7094", TipoVeiculo.CARRO));
+
+        Mockito.when(veiculoRepoMock.delete(vei04));
+        Optional<Veiculo> veiculo = Optional.ofNullable(veiculoService.findById(id));
+        Mockito.verify(veiculoRepoMock).delete(veiculo.get());
+    }
+
+    
+
 
 
 
@@ -109,39 +138,14 @@ public class VeiculoServiceIntegrationTest {
 
     /*     ########## TESTES DE INTEGRAÇÃO ##########     */
 
-    @Test
-    public  void deveRetornarUmVeiculoPeloId(){
-        Integer id = 20;
-        Veiculo veiculo = veiculoService.findById(id);
-        Assert.assertNotNull(veiculo);
-        Assert.assertEquals(id, veiculo.getId());
-    }
 
 
 
-    @Test
-    public void deveRetornarUmaExceptionParaBuscaPorIdDeVeiculoQueNaoExiste(){
-        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.findById(40));
-    }
 
-    @Test
-    public void deveLancarExcecaoAoTentarDeletarVeiculoPorIdEOVeiculoJaNaoExistirTest(){
-        Integer id = 31;
-        Assert.assertThrows(VeiculoNotFoundException.class, () -> veiculoService.delete(id));
-    }
 
-    @Test
-    public void deveInserirNovoVeiculoTest(){
-        Veiculo veiculo = new Veiculo();
-        veiculo.setMarca("FERRARI");
-        veiculo.setModelo("355 GTS TARGA");
-        veiculo.setCor("CINZA");
-        veiculo.setPlaca("BIM6140");
-        veiculo.setTipo(TipoVeiculo.CARRO);
-        Veiculo obj = veiculoService.insert(veiculo);
-        Assert.assertNotNull(obj);
-        Assert.assertEquals(obj.getPlaca(), veiculo.getPlaca());
-    }
+
+
+
 
 
 
