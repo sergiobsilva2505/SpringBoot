@@ -58,7 +58,7 @@ public class VeiculoService {
         }
     }
 
-    public Veiculo editaVeiculo(EditaVeiculoForm objDto, Integer id){
+    public Veiculo editaVeiculo(Veiculo objDto, Integer id){
         /* Verifica se já existe um veiculo com a placa informada. Não é o que será alterado */
         Veiculo veiculo = veiculoRepository.findByPlaca(objDto.getPlaca());
         if (veiculo != null){

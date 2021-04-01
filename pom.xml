@@ -70,6 +70,8 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Esse comentario foi gerado pra testar uma resolução de conflito -->
+
 
 		<!--
 			Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo
@@ -77,6 +79,9 @@
 			 para fazer um livro de modelos de tipos kn h jh vljgulugjclugc
 		 -->
 
+
+
+		<!--   hblhblhvluhvuvh   -->
 
 	</dependencies>
 
