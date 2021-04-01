@@ -70,6 +70,8 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Esse comentario foi gerado pra testar uma resolução de conflito -->
+
 
 	</dependencies>
 
